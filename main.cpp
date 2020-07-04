@@ -1,27 +1,40 @@
 #include <SFML/Graphics.hpp>
 #include <vector>
 
+#include "Tetromino.hpp"
+#include "GameBoard.hpp"
+#include "Game.hpp"
+
 int main()
 {
 
-	int screen_width = 600;
-	int screen_height = 800;
-	sf::RenderWindow window(sf::VideoMode(600, 800), "Trevor Tetris");
-	window.setFramerateLimit(60);
 	float side_length = 30.f;
+	int screen_width = static_cast<int>(20*side_length);
+	int screen_height = static_cast<int>(800.f*side_length / 30.f);
+	sf::RenderWindow window(sf::VideoMode(screen_width, screen_height), "Trevor Tetris");
+	window.setFramerateLimit(60);
 	int x_pos = 0;
 	int y_pos = 0;
-	std::vector<sf::RectangleShape> tetris_piece;
-	for (int i = 0; i < 4; i++) {
-		tetris_piece.emplace_back(sf::Vector2f(side_length, side_length));
-		tetris_piece[i].setOrigin(-1*(screen_width - side_length * 10) / 2, -1*(screen_height - side_length * 24) / 2);
-		tetris_piece[i].setPosition(x_pos * side_length, y_pos * side_length + side_length*i);
-		tetris_piece[i].setFillColor(sf::Color::Blue);
-	}
+	int frame_count = 0;
+	int time_delta = 120;
+	sf::Vector2f origin((screen_width - side_length * 10) / 2, (screen_height - side_length * 24) / 2);
+	Tetromino piece(Tetromino::type::L, side_length, origin);
 
-	sf::RectangleShape game_board(sf::Vector2f(side_length * 10, side_length * 24));
-	game_board.setPosition((screen_width - side_length * 10) / 2, (screen_height - side_length * 24) / 2);
+	sf::RectangleShape gameBackground(sf::Vector2f(side_length * 10, side_length * 24));
+	gameBackground.setOutlineColor(sf::Color(220, 220, 220));
+	gameBackground.setOutlineThickness(10);
+	gameBackground.setPosition(origin);
 
+	sf::RectangleShape time_dial(sf::Vector2f(30.f, 10.f));
+	time_dial.setOutlineColor(sf::Color::White);
+	time_dial.setOutlineThickness(2);
+	time_dial.setPosition(origin - sf::Vector2f(50, 0));
+	
+	sf::RectangleShape time_fill(sf::Vector2f(0.f, 10.f));
+	time_fill.setFillColor(sf::Color::Blue);
+	time_fill.setPosition(origin - sf::Vector2f(50, 0));
+
+	Game game(origin, side_length);
 
 	while (window.isOpen())
 	{
@@ -31,27 +44,32 @@ int main()
 			if (event.type == sf::Event::Closed)
 				window.close();
 			if (event.type == sf::Event::KeyPressed) {
-				if (event.key.code == sf::Keyboard::A && x_pos > 0)
-					x_pos--;
-				if (event.key.code == sf::Keyboard::D && x_pos < 9)
-					x_pos++;
-				if (event.key.code == sf::Keyboard::W && y_pos > 0)
-					y_pos--;
-				if (event.key.code == sf::Keyboard::S && y_pos < 23)
-					y_pos++;
+				if (event.key.code == sf::Keyboard::Escape)
+					window.close();
+				if (event.key.code == sf::Keyboard::A)
+					game.move(sf::Vector2f(-1.f, 0.f));
+				if (event.key.code == sf::Keyboard::D)
+					game.move(sf::Vector2f(1.f, 0.f));
+				if (event.key.code == sf::Keyboard::S)
+				{
+					frame_count = 0;
+				}
 			}
 		}
 
+		if (frame_count % time_delta == 1)
+			game.step();
+
+		time_fill.setSize(sf::Vector2f(frame_count % time_delta / static_cast<float>(time_delta) * 30.f, 10.f));
+
+		++frame_count;
+
 		window.clear();
 
-		for (int i = 0; i < 4; i++) {
-			tetris_piece[i].setPosition(x_pos * side_length, y_pos * side_length + side_length * i);
-		}
-
-		window.draw(game_board);
-
-		for (auto part : tetris_piece)
-			window.draw(part);
+		window.draw(gameBackground);
+		window.draw(time_dial);
+		window.draw(time_fill);
+		window.draw(game);
 
 		window.display();
 	}
