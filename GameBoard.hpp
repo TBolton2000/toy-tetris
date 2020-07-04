@@ -56,9 +56,9 @@ public:
 		for (auto const& location : tetromino_locations)
 		{
 			sf::Vector2f new_location = location + direction;
-			if (!(new_location.x >= 0 && new_location.x < num_cols && new_location.y >= 0 && new_location.y < num_rows))
+			if (!(round(new_location.x) >= 0 && round(new_location.x) < num_cols && round(new_location.y) >= 0 && round(new_location.y) < num_rows))
 				return true;
-			if (squares.at(static_cast<size_t>(new_location.y)).at(static_cast<size_t>(new_location.x)) != nullptr)
+			if (squares.at(round(new_location.y)).at(round(new_location.x)) != nullptr)
 				return true;
 		}
 		return false;
@@ -70,8 +70,8 @@ public:
 		auto new_squares = piece.getSquaresArray();
 		for (int i = 0; i < 4; i++)
 		{
-			int x_pos = positions[i].x;
-			int y_pos = positions[i].y;
+			int x_pos = round(positions[i].x);
+			int y_pos = round(positions[i].y);
 			std::cout << "Placing piece at: " << x_pos << ", " << y_pos << std::endl;
 			squares.at(y_pos).at(x_pos) = std::move(new_squares[i]);
 		}

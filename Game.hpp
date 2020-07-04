@@ -3,6 +3,7 @@
 #include<algorithm>
 #include<random>
 #include<chrono>
+#include<math.h>
 
 #include "GameBoard.hpp"
 #include "Tetromino.hpp"
@@ -56,6 +57,19 @@ public:
 	{
 		if (!(board.collides(piece_bag[index].getPositionsArray(),direction)))
 			piece_bag[index].move(direction);
+	}
+	
+	void rotate(int direction)
+	{
+		
+		auto [rotated_positions, relative_rotated_positions] = piece_bag[index].getRotatedPositionsArrays(direction);
+		
+		if (!(board.collides(rotated_positions, sf::Vector2f(0, 0))))
+		{
+			std::cout << "Trying to rotate: " << direction << std::endl;
+			piece_bag[index].setSquarePositions(relative_rotated_positions);
+		}
+
 	}
 
 	void lock_piece()

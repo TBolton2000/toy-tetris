@@ -54,6 +54,10 @@ int main()
 				{
 					frame_count = 0;
 				}
+				if (event.key.code == sf::Keyboard::Q)
+					game.rotate(1);
+				if (event.key.code == sf::Keyboard::E)
+					game.rotate(-1);
 			}
 		}
 
