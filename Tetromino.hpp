@@ -17,6 +17,7 @@ private:
 	sf::Vector2f rotation_center;
 	sf::Vector2f location;
 	sf::Vector2f game_board_origin;
+	int rotation_state;
 
 	Square::Color getTetColor(type piece_type)
 	{
@@ -89,7 +90,8 @@ public:
 		: side_length(side_length), piece_type(piece_type), border_length(1),
 		squares{ std::make_unique<Square>(getTetColor(piece_type),side_length), std::make_unique<Square>(getTetColor(piece_type),side_length),
 				 std::make_unique<Square>(getTetColor(piece_type),side_length), std::make_unique<Square>(getTetColor(piece_type),side_length) },
-		square_positions(getStartingPositions(piece_type)), rotation_center(getStartingRotationCenter(piece_type)), game_board_origin(game_board_origin), location(3.f,0.f)
+		square_positions(getStartingPositions(piece_type)), rotation_center(getStartingRotationCenter(piece_type)), game_board_origin(game_board_origin),
+		location(3.f,0.f), rotation_state(0)
 	{  }
 
 	void move(sf::Vector2f delta)
@@ -114,8 +116,7 @@ public:
 		for (int i = 0; i < 4; i++)
 		{
 			auto temp = square_positions[i] - rotation_center;
-			auto new_temp = sf::Vector2f(temp.x*cos(3.141592f*direction / 2.f) - temp.y*sin(3.141592f*direction / 2.f),
-				temp.x*sin(3.141592f*direction / 2.f) + temp.y*cos(3.141592f*direction / 2.f));
+			auto new_temp = sf::Vector2f( 0 - temp.y*direction, temp.x*direction);
 			relative_rotated_positions[i] = new_temp + rotation_center;
 			rotated_positions[i] = relative_rotated_positions[i] + location;
 		}
@@ -130,6 +131,21 @@ public:
 	std::array<std::unique_ptr<Square>, 4> getSquaresArray()
 	{
 		return std::move(squares);
+	}
+
+	int getRotationState()
+	{
+		return rotation_state;
+	}
+
+	void setRotationState(int new_state)
+	{
+		rotation_state = new_state;
+	}
+
+	type getPieceType()
+	{
+		return piece_type;
 	}
 
 	void draw(sf::RenderTarget& target, sf::RenderStates states) const

@@ -36,6 +36,368 @@ private:
 		return bag;
 	}
 
+	sf::Vector2f try_to_kick(int rot_direction, std::array<sf::Vector2f, 4> square_positions)
+	{
+		int curr_rot_state = piece_bag[index].getRotationState();
+		int next_rot_state;
+		if (rot_direction == 1)
+			next_rot_state = (curr_rot_state + 1) % 4;
+		else /*if (rot_direction == -1)*/
+			next_rot_state = (curr_rot_state + 3) % 4;
+
+		if (piece_bag[index].getPieceType() != Tetromino::I)
+		{
+			if (curr_rot_state == 0)
+			{
+				if (next_rot_state == 1)
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 0))))
+					{
+						return sf::Vector2f(-1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, -1))))
+					{
+						return sf::Vector2f(-1, -1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(0, 2))))
+					{
+						return sf::Vector2f(0, 2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 2))))
+					{
+						return sf::Vector2f(-1, 2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+				else /*if (next_rot_state == 3)*/
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(1, 0))))
+					{
+						return sf::Vector2f(1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, -1))))
+					{
+						return sf::Vector2f(1, -1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(0, 2))))
+					{
+						return sf::Vector2f(0, 2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, 2))))
+					{
+						return sf::Vector2f(1, 2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+			}
+			else if (curr_rot_state == 1)
+			{
+				if (next_rot_state == 2)
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(1, 0))))
+					{
+						return sf::Vector2f(1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, 1))))
+					{
+						return sf::Vector2f(1, 1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(0, -2))))
+					{
+						return sf::Vector2f(0, -2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, -2))))
+					{
+						return sf::Vector2f(1, -2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+				else /*if (next_rot_state == 0)*/
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(1, 0))))
+					{
+						return sf::Vector2f(1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, 1))))
+					{
+						return sf::Vector2f(1, 1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(0, -2))))
+					{
+						return sf::Vector2f(0, -2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, -2))))
+					{
+						return sf::Vector2f(1, -2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+			}
+			else if (curr_rot_state == 2)
+			{
+				if (next_rot_state == 3)
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(1, 0))))
+					{
+						return sf::Vector2f(1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, -1))))
+					{
+						return sf::Vector2f(1, -1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(0, 2))))
+					{
+						return sf::Vector2f(0, 2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, 2))))
+					{
+						return sf::Vector2f(1, 2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+				else /*if (next_rot_state == 1)*/
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 0))))
+					{
+						return sf::Vector2f(-1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, -1))))
+					{
+						return sf::Vector2f(-1, -1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(0, 2))))
+					{
+						return sf::Vector2f(0, 2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 2))))
+					{
+						return sf::Vector2f(-1, 2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+			}
+			else if (curr_rot_state == 3)
+			{
+				if (next_rot_state == 2)
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 0))))
+					{
+						return sf::Vector2f(-1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 1))))
+					{
+						return sf::Vector2f(-1, 1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(0, -2))))
+					{
+						return sf::Vector2f(0, -2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, -2))))
+					{
+						return sf::Vector2f(-1, -2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+				else /*if (next_rot_state == 0)*/
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 0))))
+					{
+						return sf::Vector2f(-1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 1))))
+					{
+						return sf::Vector2f(-1, 1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(0, -2))))
+					{
+						return sf::Vector2f(0, -2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, -2))))
+					{
+						return sf::Vector2f(-1, -2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+			}
+		}
+		else /*if (piece_bag[index].getPieceType() == Tetromino::I)*/
+		{
+			if (curr_rot_state == 0)
+			{
+				if (next_rot_state == 1)
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(-2, 0))))
+					{
+						return sf::Vector2f(-2, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, 0))))
+					{
+						return sf::Vector2f(1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-2, 1))))
+					{
+						return sf::Vector2f(-2, 1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, -2))))
+					{
+						return sf::Vector2f(1, -2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+				else /*if (next_rot_state == 3)*/
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 0))))
+					{
+						return sf::Vector2f(-1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(2, 0))))
+					{
+						return sf::Vector2f(2, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, -2))))
+					{
+						return sf::Vector2f(-1, -2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(2, 1))))
+					{
+						return sf::Vector2f(2, 1);
+					}
+					return sf::Vector2f(0, 0);
+				}
+			}
+			else if (curr_rot_state == 1)
+			{
+				if (next_rot_state == 2)
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 0))))
+					{
+						return sf::Vector2f(-1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(2, 0))))
+					{
+						return sf::Vector2f(2, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, -2))))
+					{
+						return sf::Vector2f(-1, -2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(2, 1))))
+					{
+						return sf::Vector2f(2, 1);
+					}
+					return sf::Vector2f(0, 0);
+				}
+				else /*if (next_rot_state == 0)*/
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(2, 0))))
+					{
+						return sf::Vector2f(2, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 0))))
+					{
+						return sf::Vector2f(-1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(2, -1))))
+					{
+						return sf::Vector2f(2, -1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 2))))
+					{
+						return sf::Vector2f(-1, 2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+			}
+			else if (curr_rot_state == 2)
+			{
+				if (next_rot_state == 3)
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(2, 0))))
+					{
+						return sf::Vector2f(2, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 0))))
+					{
+						return sf::Vector2f(-1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(2, -1))))
+					{
+						return sf::Vector2f(2, -1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-1, 2))))
+					{
+						return sf::Vector2f(-1, 2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+				else /*if (next_rot_state == 1)*/
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(1, 0))))
+					{
+						return sf::Vector2f(1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-2, 0))))
+					{
+						return sf::Vector2f(-2, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, 2))))
+					{
+						return sf::Vector2f(1, 2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-2, -1))))
+					{
+						return sf::Vector2f(-2, -1);
+					}
+					return sf::Vector2f(0, 0);
+				}
+			}
+			else if (curr_rot_state == 3)
+			{
+				if (next_rot_state == 2)
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(-2, 0))))
+					{
+						return sf::Vector2f(-2, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, 0))))
+					{
+						return sf::Vector2f(1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-2, 1))))
+					{
+						return sf::Vector2f(-2, 1);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, -2))))
+					{
+						return sf::Vector2f(1, -2);
+					}
+					return sf::Vector2f(0, 0);
+				}
+				else /*if (next_rot_state == 0)*/
+				{
+					if (!(board.collides(square_positions, sf::Vector2f(1, 0))))
+					{
+						return sf::Vector2f(1, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-2, 0))))
+					{
+						return sf::Vector2f(-2, 0);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(1, 2))))
+					{
+						return sf::Vector2f(1, 2);
+					}
+					if (!(board.collides(square_positions, sf::Vector2f(-2, -1))))
+					{
+						return sf::Vector2f(-2, -1);
+					}
+					return sf::Vector2f(0, 0);
+				}
+			}
+		}
+
+	}
+
 public:
 	Game(sf::Vector2f origin, float side_length)
 		: side_length(side_length), origin(origin), board(24,10,origin,side_length),
@@ -59,15 +421,30 @@ public:
 			piece_bag[index].move(direction);
 	}
 	
-	void rotate(int direction)
+	void rotate(int rot_direction)
 	{
 		
-		auto [rotated_positions, relative_rotated_positions] = piece_bag[index].getRotatedPositionsArrays(direction);
+		auto [rotated_positions, relative_rotated_positions] = piece_bag[index].getRotatedPositionsArrays(rot_direction);
 		
 		if (!(board.collides(rotated_positions, sf::Vector2f(0, 0))))
 		{
-			std::cout << "Trying to rotate: " << direction << std::endl;
 			piece_bag[index].setSquarePositions(relative_rotated_positions);
+			if (rot_direction == 1)
+				piece_bag[index].setRotationState((piece_bag[index].getRotationState() + 1) % 4);
+			else
+				piece_bag[index].setRotationState((piece_bag[index].getRotationState() + 3) % 4);
+		}
+		else {
+			sf::Vector2f kick_value = try_to_kick(rot_direction, rotated_positions);
+			if (kick_value != sf::Vector2f(0, 0))
+			{
+				piece_bag[index].setSquarePositions(relative_rotated_positions);
+				piece_bag[index].move(kick_value);
+				if (rot_direction == 1)
+					piece_bag[index].setRotationState((piece_bag[index].getRotationState() + 1) % 4);
+				else
+					piece_bag[index].setRotationState((piece_bag[index].getRotationState() + 3) % 4);
+			}
 		}
 
 	}

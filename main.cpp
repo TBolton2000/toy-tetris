@@ -52,17 +52,18 @@ int main()
 					game.move(sf::Vector2f(1.f, 0.f));
 				if (event.key.code == sf::Keyboard::S)
 				{
-					frame_count = 0;
+					//frame_count = 0;
+					game.step();
 				}
 				if (event.key.code == sf::Keyboard::Q)
-					game.rotate(1);
-				if (event.key.code == sf::Keyboard::E)
 					game.rotate(-1);
+				if (event.key.code == sf::Keyboard::E)
+					game.rotate(1);
 			}
 		}
 
-		if (frame_count % time_delta == 1)
-			game.step();
+		//if (frame_count % time_delta == 1)
+//			game.step();
 
 		time_fill.setSize(sf::Vector2f(frame_count % time_delta / static_cast<float>(time_delta) * 30.f, 10.f));
 
